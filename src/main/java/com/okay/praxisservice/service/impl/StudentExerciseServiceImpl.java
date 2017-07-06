@@ -39,8 +39,8 @@ public class StudentExerciseServiceImpl implements StudentExerciseService {
      */
     private void updateExcutorCallable(int year, String tablePrefixName, int startTable, int endTable) {
         String tablePrefix = "";
-        if (tablePrefixName.startsWith("entity_student_exercise_")) {
-            tablePrefix = tablePrefixName + year + "_";
+        if (tablePrefixName.startsWith("entity_student_exercise")) {
+            tablePrefix = tablePrefixName+"_" + year + "_";
         } else {
             tablePrefix = tablePrefixName + "_";
         }
@@ -135,7 +135,7 @@ public class StudentExerciseServiceImpl implements StudentExerciseService {
             studentExcise.setPostilSvgFlag(svgFlag);
             studentExcise.setFlag(1);
             studentExcise.setTableName(tableName);
-            if (tableName.startsWith("entity_student_exercise_")) {
+            if (tableName.startsWith("entity_student_exercise")) {
                 studentExcise.setIntellPostil(intell_postil);
                 studentExcise.setIntellResult(intell_result);
                 studentExcise.setIntellResource(intell_resource);
