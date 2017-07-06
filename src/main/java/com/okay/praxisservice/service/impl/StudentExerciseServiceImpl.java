@@ -89,17 +89,6 @@ public class StudentExerciseServiceImpl implements StudentExerciseService {
     }
 
 
-    /***
-     * 获取某张表一共有多少条数据
-     * @param tableName
-     * @return
-     */
-    private int getTableDataNum(String tableName) {
-        SqlParamEntity entity = new SqlParamEntity();
-        entity.setTableName(tableName);
-        int num = studentExerciseMapper.getDataNum(entity);
-        return num;
-    }
 
 
     /***
