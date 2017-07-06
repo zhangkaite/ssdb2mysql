@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+    <!-- 设置配置文件存放位置 -->
+    <context:property-placeholder location="classpath:jdbc.properties" />
+
+    <context:component-scan base-package="com.okay.praxisservice.*"/>
+
+    <aop:aspectj-autoproxy/>
+
+    <!-- druid setting -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${ds.druid.driver}"/>
+        <property name="url" value="${ds.druid.url}"/>
+        <property name="username" value="${ds.druid.username}"/>
+        <property name="password" value="${ds.druid.password}"/>
+        <property name="initialSize" value="${ds.druid.initialSize}"/>
+        <property name="minIdle" value="${ds.druid.minIdle}"/>
+        <property name="maxActive" value="${ds.druid.maxActive}"/>
+        <property name="maxWait" value="${ds.druid.maxWait}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="${ds.druid.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${ds.druid.minEvictableIdleTimeMillis}"/>
+        <property name="filters" value="${ds.druid.filters}"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:mappers/mybatis-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:mappers/*.mapper.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.okay.praxisservice.dao.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="annotationClass" value="org.springframework.stereotype.Repository"/>
+    </bean>
+
+    <!-- ================================== TRANSACTION DEFINITIONS ================================== -->
+    <bean id="answerDbTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="answerDbTransactionManager">
+        <tx:attributes>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="create*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="batch*" propagation="REQUIRED"/>
+            <tx:method name="reset*" propagation="REQUIRED"/>
+            <tx:method name="publish*" propagation="REQUIRED"/>
+            <tx:method name="share*" propagation="REQUIRED"/>
+            <tx:method name="submit*" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--com.okay.praxisservice.service.interfaces.StudentExerciseService -->
+    <aop:config>
+        <aop:pointcut id="serviceMethods"
+                      expression="((execution(* com.okay.praxisservice.service.interfaces..*.*(..))))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
+    </aop:config>
+
+
+
+
+    <bean id="singleServerSsdbClient" class="com.hyd.ssdb.SsdbClient" destroy-method="close">
+        <constructor-arg name="host" value="10.60.0.67"/>
+        <constructor-arg name="port" value="8888"/>
+        <constructor-arg name="pass" value=""/>
+        <constructor-arg name="soTimeout" value="15000"/>
+        <constructor-arg name="poolMaxTotal" value="5000"/>
+    </bean>
+
+    <bean id="ssdbUtil" class="com.noriental.utils.ssdb.SSDBUtil"/>
+
+
+
+
+</beans>

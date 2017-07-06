@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+    <property name="PROJECT_NAME" value="praxis-svr-knowledge"/>
+    <property name="SERVER_NAME" value="server"/>
+    <property name="LOG_HOME" value="/xdfapp/logs/${PROJECT_NAME}"/>
+
+    <!--控制台-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 只输出level级别以上的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %level %class:%line [%thread] [%X{id}] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--SQL DEBUG-->
+    <appender name="SQL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${SERVER_NAME}-sql.log</File>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %level %class:%line [%thread] [%X{id}] %msg%n</pattern>
+        </encoder>
+        <!-- 只输出level级别以上的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <!--日志按天备份-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${SERVER_NAME}-sql.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!--INFO-->
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${SERVER_NAME}-info.log</File>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %level %class:%line [%thread] [%X{id}] %msg%n</pattern>
+        </encoder>
+        <!-- 只输出level级别以上的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <!--日志按天备份-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${SERVER_NAME}-info.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!--ERROR-->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${SERVER_NAME}-error.log</File>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %level %class:%line [%thread] [%X{id}] %msg%n</pattern>
+        </encoder>
+        <!-- 只输出level级别以上的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY </onMismatch>
+        </filter>
+        <!--日志按天备份-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${SERVER_NAME}-error.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+    </appender>
+    <!--统计-->
+    <appender name="ssdblog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<File>${LOG_HOME}/${SERVER_NAME}-ssdb.log</File>-->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %level %class:%line [%thread] [%X{id}]  %msg%n</pattern>
+        </encoder>
+        <!--日志按天备份-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${SERVER_NAME}-ssdb.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.aop" level="INFO"/>
+
+    <logger name="org.apache.httpclient.wire" level="WARN"/>
+    <logger name="org.apache.commons.httpclient" level="INFO"/>
+    <logger name="org.apache.zookeeper" level="INFO"/>
+    <logger name="org.eclipse.jetty" level="INFO" />
+
+    <logger name="org.mybatis.spring" level="WARN" />
+    <logger name="org.mybatis" level="WARN" />
+    <logger name="org.apache.ibatis" level="WARN" />
+    <logger name="com.github.miemiedev" level="WARN" />
+
+    <logger name="org.eclipse.jetty" level="INFO" />
+    <logger name="com.alibaba.dubbo" level="INFO"/>
+
+
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="INFO" />
+        <appender-ref ref="ERROR" />
+    </root>
+</configuration>

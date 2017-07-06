@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.okay.praxisservice.dao.mapper.StudentExerciseMapper">
+    <resultMap id="studentExercise" type="com.okay.praxisservice.entity.StudentExcise">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="student_id" property="studentId" jdbcType="BIGINT"/>
+        <result column="question_id" property="questionId" jdbcType="BIGINT"/>
+        <result column="exercise_source" property="exerciseSource" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="picture_source" property="pictureSource" jdbcType="INTEGER"/>
+        <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP"/>
+        <result column="corrector_id" property="correctorId" jdbcType="BIGINT"/>
+        <result column="corrector_time" property="correctorTime" jdbcType="TIMESTAMP"/>
+        <result column="parent_question_id" property="parentQuestionId" jdbcType="BIGINT"/>
+        <result column="resource_id" property="resourceId" jdbcType="BIGINT"/>
+        <result column="redo_status" property="redoStatus" jdbcType="VARCHAR"/>
+        <result column="redo_source" property="redoSource" jdbcType="INTEGER"/>
+        <result column="postil_teacher_date" property="postilTeacherDate" jdbcType="TIMESTAMP"/>
+        <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
+        <result column="struct_id" property="structId" jdbcType="BIGINT"/>
+        <result column="question_type" property="questionType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, student_id, question_id, exercise_source, resource_id
+    </sql>
+
+    <update id="updateData" parameterType="java.util.List" statementType="STATEMENT">
+
+        <foreach collection="list" item="item" separator=";">
+            UPDATE ${item.tableName} set
+            <if test="item.result != null">
+                result='${item.result}',
+            </if>
+            <if test="item.correctorRole != null">
+                correct_role='${item.correctorRole}',
+            </if>
+            <if test="item.postilTeacher != null">
+                postil='${item.postilTeacher}',
+            </if>
+            <if test="item.submitAnswer != null">
+                answer='${item.submitAnswer}',
+            </if>
+            <if test="item.intellResult != null">
+                intell_result='${item.intellResult}',
+            </if>
+            <if test="item.intellPostil != null">
+                intell_postil='${item.intellPostil}',
+            </if>
+            <if test="item.intellResource != null">
+                intell_resource='${item.intellResource}',
+            </if>
+            flag=1
+            <where>
+                id=${item.id}
+            </where>
+        </foreach>
+
+
+    </update>
+
+    <select id="selectData" parameterType="com.okay.praxisservice.entity.SqlParamEntity" statementType="STATEMENT" resultMap="studentExercise">
+
+        SELECT
+        <include refid="Base_Column_List"/>
+        from ${tableName} where flag is null  limit ${startNum},${size}
+
+    </select>
+
+
+    <select id="getDataNum" parameterType="com.okay.praxisservice.entity.SqlParamEntity" statementType="STATEMENT" resultType="int">
+        SELECT  count(1) from ${tableName}  where flag is null
+
+    </select>
+
+
+</mapper>
+
+
