@@ -72,19 +72,6 @@
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
     </appender>
-    <!--统计-->
-    <appender name="ssdblog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--<File>${LOG_HOME}/${SERVER_NAME}-ssdb.log</File>-->
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %level %class:%line [%thread] [%X{id}]  %msg%n</pattern>
-        </encoder>
-        <!--日志按天备份-->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_HOME}/${SERVER_NAME}-ssdb.log.%d{yyyy-MM-dd}</fileNamePattern>
-            <!--日志文件保留天数-->
-            <MaxHistory>30</MaxHistory>
-        </rollingPolicy>
-    </appender>
 
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.aop" level="INFO"/>
