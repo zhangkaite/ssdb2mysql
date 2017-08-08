@@ -31,7 +31,10 @@ public class StudentExerciseServiceImpl implements StudentExerciseService {
 
 
     public void updateStudentExerciseService(String tablePrefix, int year, int startTable, int endTable) {
+        long start_time=System.currentTimeMillis();
         updateExcutorCallable(year, tablePrefix, startTable, endTable);
+        long end_time=System.currentTimeMillis();
+        logger.info("表的更新花费总时长:"+(end_time-start_time));
     }
 
     /***
@@ -124,7 +127,7 @@ public class StudentExerciseServiceImpl implements StudentExerciseService {
             String answer = map.get(key_p + StudentExerciseUtil.ANSWER_SHORT_KEY);
             String role = map.get(key_p + StudentExerciseUtil.ROLR_SHORT_KEY);
             String svgFlag = map.get(key_p + StudentExerciseUtil.POSTIL_SVG_FLAG);
-            String key_a = StudentExerciseUtil.GET_SSDB_KYE_PRE(studentExcise);
+            String key_a = StudentExerciseUtil.GET_SSDB_KYE_AFTER(studentExcise);
             String intell_result = map.get(StudentExerciseUtil.INTELL_CORRECT_RESULT + key_a);
             String intell_postil = map.get(StudentExerciseUtil.INTELL_POSTIL_RESULT + key_a);
             String intell_resource = map.get(StudentExerciseUtil.INTELL_CORRECT_RESOURCE + key_a);
