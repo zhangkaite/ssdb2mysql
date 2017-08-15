@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration scan="true">
-    <property name="PROJECT_NAME" value="praxis-svr-knowledge"/>
+    <property name="PROJECT_NAME" value="ssdb2Mysql"/>
     <property name="SERVER_NAME" value="server"/>
     <property name="LOG_HOME" value="/xdfapp/logs/${PROJECT_NAME}"/>
 

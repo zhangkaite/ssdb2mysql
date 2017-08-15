@@ -8,6 +8,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Created by kate on 2017/2/22.
  * 思路：以main方法为入口启动spring容器，
  * 批量更新调用方法入口
+ * <p>
+ * java -jar ssdb2Mysql-1.0.jar entity_student_exercise 2015 0 49 &
+ * java -jar ssdb2Mysql-1.0.jar entity_student_exercise 2016 0 49 &
+ * java -jar ssdb2Mysql-1.0.jar entity_student_exercise  2017 0 49 &
+ * java -jar ssdb2Mysql-1.0.jar entity_student_exercise  2018 0 49 &
+ * <p>
+ * java -jar ssdb2Mysql-1.0.jar entity_student_error_exe 2015 0 49 &
+ * java -jar ssdb2Mysql-1.0.jar entity_student_error_exe 2015 50 99 &
  */
 public class Main {
 

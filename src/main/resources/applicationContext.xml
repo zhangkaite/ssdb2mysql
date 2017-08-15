@@ -74,8 +74,8 @@
 
 
     <bean id="singleServerSsdbClient" class="com.hyd.ssdb.SsdbClient" destroy-method="close">
-        <constructor-arg name="host" value="10.10.6.7"/>
-        <constructor-arg name="port" value="8888"/>
+        <constructor-arg name="host" value="${ds.ssdb.host}"/>
+        <constructor-arg name="port" value="${ds.ssdb.port}"/>
         <constructor-arg name="pass" value=""/>
         <constructor-arg name="soTimeout" value="15000"/>
         <constructor-arg name="poolMaxTotal" value="5000"/>
